@@ -1,5 +1,4 @@
 package view;
-
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,9 +15,8 @@ public class IntroScreen {
 
     public Scene createScene(Stage stage, ScenarioListener listener) {
 
-        // ---- Root container with background image ----
+        // Container with background image
         Image bg = spriteManager.introScreen;
-
         BackgroundImage bgImage = new BackgroundImage(
                 bg,
                 BackgroundRepeat.NO_REPEAT,
@@ -33,29 +31,21 @@ public class IntroScreen {
         BorderPane root = new BorderPane();
         root.setBackground(new Background(bgImage));
 
-        // ---- Button container at the top ----
+        // Buttons at the top to select scenario
         VBox buttonBox = new VBox(10);
         buttonBox.setAlignment(Pos.TOP_CENTER);
         buttonBox.setStyle("-fx-padding: 20;");
-
-        // ---- Create buttons ----
         Button s1 = createScenarioButton("Scenario 1", () -> listener.onScenarioSelected(1));
         Button s2 = createScenarioButton("Scenario 2", () -> listener.onScenarioSelected(2));
         Button s3 = createScenarioButton("Scenario 3", () -> listener.onScenarioSelected(3));
         Button s4 = createScenarioButton("Scenario 4", () -> listener.onScenarioSelected(4));
-
-        // Add buttons to the top box
         buttonBox.getChildren().addAll(s1, s2, s3, s4);
-
-        // Put buttons at the top of the screen
         root.setTop(buttonBox);
 
         return new Scene(root, 800, 600);
     }
 
-    // ---------------------------------------------------------
-    // Helper: Creates styled army-green button
-    // ---------------------------------------------------------
+    // Creates button
     private Button createScenarioButton(String text, Runnable action) {
         Button b = new Button(text);
         b.setPrefWidth(200);

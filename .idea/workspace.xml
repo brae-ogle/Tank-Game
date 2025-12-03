@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4218fbf3-5c84-4cb0-859d-1854a501fec2" name="Changes" comment="" />
+    <list default="true" id="4218fbf3-5c84-4cb0-859d-1854a501fec2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tank-game/src/main/java/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/tank-game/src/main/java/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tank-game/src/main/java/model/Missile.java" beforeDir="false" afterPath="$PROJECT_DIR$/tank-game/src/main/java/model/Missile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tank-game/src/main/java/org/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/tank-game/src/main/java/org/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tank-game/src/main/java/view/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/tank-game/src/main/java/view/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tank-game/src/main/java/view/IntroScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/tank-game/src/main/java/view/IntroScreen.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +23,9 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -32,6 +42,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Bonny Brae/Desktop/Fall 2025/TankGame",
     "onboarding.tips.debug.path": "C:/Users/Bonny Brae/Desktop/TankGame/tank-game/src/main/java/org/example/Main.java",

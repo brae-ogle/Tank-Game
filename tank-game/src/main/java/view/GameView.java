@@ -5,7 +5,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.shape.Rectangle;
 import javafx.application.Platform;
 import model.*;
 import java.util.ArrayList;
@@ -22,25 +21,27 @@ public class GameView implements Observer {
         this.model = model;
         this.canvas = canvas;
         this.gc = canvas.getGraphicsContext2D();
-        this.spriteManager = new SpriteManager();
+        this.spriteManager = new SpriteManager(); //Hold all graphics
         model.getEventManager().attach(this);
     }
 
     @Override
     public void update() {
+        //Draw everything
         render();
+        //Dynamically add new explosion events
         for (ExplosionEvent e : model.getEventManager().getExplosionEvents()) {
             activeExplosions.add(e);
         }
         model.getEventManager().clearExplosionEvents();
     }
 
-
     public void render() {
-        // Clear screen
-        gc.setFill(Color.BLACK);
+        gc.setFill(Color.DARKGRAY);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        //If game over, don't draw anything else
         if(model.isGameOver()) return;
+        //Draw game elements
         drawTanks();
         drawMissles();
         drawWalls();
@@ -49,20 +50,9 @@ public class GameView implements Observer {
         drawHealthBar();
     }
 
-    public void drawExplosions() {
-        Iterator<ExplosionEvent> it = activeExplosions.iterator();
-        while (it.hasNext()) {
-            ExplosionEvent exp = it.next();
-            exp.update();
-            if (exp.isFinished()) {
-                it.remove();
-            } else {
-                gc.drawImage(exp.getCurrentFrame(), exp.getX(), exp.getY());
-            }
-        }
-
-    }
-
+    //---------------------------------------------------------
+    // Drawing Methods
+    //---------------------------------------------------------
     public void drawTanks(){
         // Draw tanks
         for (Tank tank : model.getTanks()) {
@@ -104,12 +94,25 @@ public class GameView implements Observer {
         }
     }
 
+    public void drawExplosions() {
+        Iterator<ExplosionEvent> it = activeExplosions.iterator();
+        while (it.hasNext()) {
+            ExplosionEvent exp = it.next();
+            exp.update();
+            if (exp.isFinished()) {
+                it.remove();
+            } else {
+                gc.drawImage(exp.getCurrentFrame(), exp.getX(), exp.getY());
+            }
+        }
+
+    }
+
     public void drawMedPacks() {
         for (MedPack m : model.getMedPacks()) {
             gc.drawImage(spriteManager.medpack, m.getX(), m.getY(), 40, 40);
         }
     }
-
 
     public void drawHealthBar() {
         double barX = canvas.getWidth() - 270;      // distance from left edge
@@ -128,6 +131,10 @@ public class GameView implements Observer {
 
     }
 
+    //---------------------------------------------------------
+    // Popup Methods
+    //---------------------------------------------------------
+
     public void showLosePopup(int score) {
         Platform.runLater(() -> {
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -137,7 +144,6 @@ public class GameView implements Observer {
             alert.showAndWait();
         });
     }
-
     public void showWinPopup(int score) {
         Platform.runLater(() -> {
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -147,8 +153,4 @@ public class GameView implements Observer {
             alert.showAndWait();
         });
     }
-
-
-
-
 }

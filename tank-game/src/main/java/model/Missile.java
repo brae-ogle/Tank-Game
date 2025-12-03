@@ -34,7 +34,7 @@ public class Missile {
     public int getX() { return x; }
     public int getY() { return y; }
     public Direction getDirection() { return direction; }
-    public int getWidth() { return 40; }
-    public int getHeight() { return 40; }
+    public int getWidth() { return 20; }
+    public int getHeight() { return 20; }
     public Tank getOwner() { return owner; }
 }
