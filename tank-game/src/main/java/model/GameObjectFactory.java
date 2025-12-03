@@ -1,4 +1,5 @@
 package model;
+//Factory class to create game objects
 public class GameObjectFactory {
     public Tank createTank(String type, int x, int y, Direction d, GameModel m, MovementStrategy ms) {
         return switch (type.toLowerCase()) {

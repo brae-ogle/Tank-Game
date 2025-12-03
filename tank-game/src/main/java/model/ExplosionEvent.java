@@ -2,6 +2,7 @@ package model;
 import javafx.scene.image.Image;
 import java.util.List;
 
+//Class to handle explosion animation events
 public class ExplosionEvent {
     private int x, y;
     private int frameIndex = 0;
@@ -13,6 +14,7 @@ public class ExplosionEvent {
         setFrames();
     }
 
+    //Advance to next frame of explosion animation
     public void update() {
         frameIndex++;
         if (frameIndex >= frames.size()) {
@@ -31,11 +33,13 @@ public class ExplosionEvent {
     public boolean isFinished() {
         return finished;
     }
+
+    //Getters
     public int getX() { return x; }
     public int getY() { return y; }
-
     public List<Image> getFrames() { return frames; }
 
+    //Setters
     private void setFrames() {
          Image explosionFrameZero = new Image(getClass().getResource("/0.gif").toExternalForm());
          Image explosionFrameOne = new Image(getClass().getResource("/1.gif").toExternalForm());

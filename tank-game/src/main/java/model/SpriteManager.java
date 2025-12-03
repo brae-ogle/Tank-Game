@@ -1,7 +1,6 @@
 package model;
-
 import javafx.scene.image.Image;
-
+//Handler for loading and providing game sprites
 public class SpriteManager {
     public Image tankUp = new Image(getClass().getResource("/tankU.gif").toExternalForm());
     public Image tankDown = new Image(getClass().getResource("/tankD.gif").toExternalForm());

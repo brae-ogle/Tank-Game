@@ -37,7 +37,7 @@ public class GameView implements Observer {
     }
 
     public void render() {
-        gc.setFill(Color.DARKGRAY);
+        gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         //If game over, don't draw anything else
         if(model.isGameOver()) return;

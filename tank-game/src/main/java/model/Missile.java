@@ -20,6 +20,7 @@ public class Missile {
             case LEFT -> x -= speed;
             case RIGHT -> x += speed;
         }
+        // Check for collisions or out-of-bounds
         if(model.canMoveTo(x, y, owner)) {
             x = x;
             y = y;
@@ -31,6 +32,7 @@ public class Missile {
         }
     }
 
+    //Getters
     public int getX() { return x; }
     public int getY() { return y; }
     public Direction getDirection() { return direction; }

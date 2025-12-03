@@ -1,31 +1,28 @@
 package model;
-
 import java.util.Random;
-
+//Strategy Pattern
 public class SmarterAIMovementStrategy implements MovementStrategy {
-
     private Random rand = new Random();
-    private int moveStep = 2;
-    private int frameCounter = 0;
-    private int moveInterval = 5; // moves more smoothly
+    private int moveStep = 2; // pixels per movement
+    private int frameCounter = 0; // counts frames to control movement frequency
+    private int moveInterval = 5; // move every 5 frames
 
     @Override
     public void move(Tank tank) {
         frameCounter++;
+        // control movement frequency
         if (frameCounter < moveInterval) return;
         frameCounter = 0;
 
         GameModel model = tank.getModel();
         PlayerTank player = model.getPlayerTank();
-
-        // 1. ---- Player detection radius ----
+        // Player detection radius
         double dx = player.getX() - tank.getX();
         double dy = player.getY() - tank.getY();
         double distance = Math.sqrt(dx * dx + dy * dy);
-
         boolean seesPlayer = distance < 350;  // detection radius
 
-        // 2. ---- Choose direction ----
+        //choose direction
         if (seesPlayer) {
             // move toward player
             if (Math.abs(dx) > Math.abs(dy)) {
@@ -40,7 +37,7 @@ public class SmarterAIMovementStrategy implements MovementStrategy {
             }
         }
 
-        // 3. ---- Predict movement & avoid walls ----
+        //Predict movement & avoid walls
         int nextX = tank.getX();
         int nextY = tank.getY();
 
@@ -57,11 +54,11 @@ public class SmarterAIMovementStrategy implements MovementStrategy {
             return; // skip movement this frame
         }
 
-        // 4. ---- Move tank ----
+        //Move tank
         tank.x = nextX;
         tank.y = nextY;
 
-        // 5. ---- Smart shooting ----
+        //Smart shooting
         boolean alignedX = Math.abs(dx) < 60; // vertical alignment
         boolean alignedY = Math.abs(dy) < 60; // horizontal alignment
 
@@ -82,13 +79,4 @@ public class SmarterAIMovementStrategy implements MovementStrategy {
         tank.x = Math.max(0, Math.min(tank.x, 800 - tank.getWidth()));
         tank.y = Math.max(0, Math.min(tank.y, 600 - tank.getHeight()));
     }
-
-//    private boolean collidesWithWall(int nextX, int nextY, Tank tank, GameModel model) {
-//        for (Wall w : model.getWalls()) {
-//            if (w.collides(nextX, nextY, tank.getWidth(), tank.getHeight())) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 }

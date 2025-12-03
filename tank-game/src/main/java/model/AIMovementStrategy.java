@@ -28,6 +28,7 @@ public class AIMovementStrategy implements MovementStrategy {
             case RIGHT -> tank.x += moveStep;
         }
 
+        //Randomly fire missile
         if (rand.nextDouble() < 0.011) {
             Missile m = tank.fire();
             tank.getModel().getMissiles().add(m);
