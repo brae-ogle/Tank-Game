@@ -1,0 +1,260 @@
+classDiagram
+
+%% ===== Model Layer =====
+class GameModel {
+    - static GameModel instance
+    - List<Tank> tanks
+    - List<Missile> missiles
+    - List<Wall> walls
+    - List<MedPack> medpacks
+    - int score
+    + static getInstance()
+    + getEventManager() : GameEventManager
+    + addTank(Tank t)
+    + addMissile(Missile m)
+    + checkMissileCollisions()
+    + update()
+    + canMoveTo() : boolean
+    + getPlayerTank() : PlayerTank
+    + getEnemyTankNumber() : int
+    + setGameOver()
+    + isGameWon(): boolean
+    + getScore() : int
+    + increaseScore(int i)
+    + loadScenario1()
+    + loadScenario2()
+    + loadScenario3()
+    + loadScenario4()
+}
+
+class Tank {
+    <<abstract>>
+    - int health
+    - int x
+    - int y
+    - Direction direction
+    - MovementStrategy movementStrategy
+    - GameModel model
+    + move()
+    + fire() : Missile
+    + takeDamage(int dmg)
+    - explode()
+    + heal()
+    + getX()
+    + getY()
+    + getModel()
+    + getWidth()
+    + getHeight()
+    + setX()
+    + setY()
+    + setDirection()
+
+}
+
+class PlayerTank {
+    + setMovementStrategy()
+}
+
+class EnemyTank {
+}
+
+class Missile {
+    - int speed
+    - int damage
+    - Tank owner
+    - Direction direction
+    - GameModel model
+    + move()
+    + getX()
+    + getY()
+    + getModel()
+    + getWidth()
+    + getHeight()
+    + getDirection()
+    + getOwner()
+}
+
+class Wall {
+    - int x
+    - int y
+    - int width
+    - int height
+    + getX()
+    + getY()
+    + getWidth()
+    + getHeight()
+}
+
+class MedPack {
+    - int x
+    - int y
+    + heal(Tank t)
+    + getX()
+    + getY()
+}
+
+class ExplosionEvent {
+    - int x
+    - int y
+    - int frameIndex = 0
+    - boolean finished = false
+    - List<Image> frames
+    + void update()
+    + Image getCurrentFrame()
+    + boolean isFinished()
+    + int getX()
+    + int getY()
+    + List<Image> getFrames()
+    - void setFrames()
+}
+
+
+class Direction {
+    <<enumeration>>
+    UP
+    DOWN
+    LEFT
+    RIGHT
+}
+
+class SpriteManager {
+    - Image wall
+    - Image tank
+    - Image missile
+    - Image background
+}
+
+%% ===== Strategy Pattern =====
+class MovementStrategy {
+    <<interface>>
+    + move(Tank tank)
+}
+
+class PlayerControlStrategy {
+    - Direction direction
+    + move(Tank tank)
+}
+
+class AIMovementStrategy {
+    - Random rand
+    - int moveStep
+    - int frameCounter
+    - int moveInterval
+    + move(Tank tank)
+}
+
+class SmarterAIMovementStrategy {
+    - Random rand
+    - int moveStep
+    - int frameCounter
+    - int moveInterval
+    + move(Tank tank)
+}
+
+%% ===== Factory Pattern =====
+class GameObjectFactory {
+    + createTank(String type) : Tank
+    + createMissile(Tank t) : Missile
+    + createWall()
+    + createMedPack()
+}
+
+%% ===== Observer Pattern =====
+class Subject {
+    <<interface>>
+    + attach(Observer o)
+    + detach(Observer o)
+    + notifyObservers()
+}
+
+class Observer {
+    <<interface>>
+    + update()
+}
+
+class GameEventManager {
+    - List<Observer> observers
+    - List<ExplosionEvent> explosionEvents
+    + attach(Observer o)
+    + detach(Observer o)
+    + notifyObservers()
+    + notifyExplosion(ExplosionEvent e)
+    + getExplosionEvents() : ExplosionEvent
+    + clearExplosionEvents()
+}
+
+%% ===== View Layer =====
+class GameView {
+    - Canvas canvas
+    - GraphicsContext gc
+    - GameModel model
+    - SpriteManager spriteManager
+    - ArrayList<ExplosionEvent> activeExplosions
+    + GameView(GameModel model, Canvas canvas)
+    + void update()
+    + void render()
+    + void drawExplosions()
+    + void drawTanks()
+    + void drawMissles()
+    + void drawWalls()
+    + void drawMedPacks()
+    + void drawHealthBar()
+    + void showLosePopup(int score)
+    + void showWinPopup(int score)
+}
+
+class IntroScreen {
+    - SpriteManager spriteManager
+    + createScene(Stage stage, ScenarioListener listener) : Scene
+}
+
+
+%% ===== Controller Layer =====
+class GameController {
+    - GameModel model
+    - GameView view
+    - AnimationTimer timer
+    - int moveStep
+    + GameController(GameModel model, GameView view)
+    + handle(KeyEvent e)
+    + setGameLoop(AnimationTimer timer)
+    + getTimer() : AnimationTimer
+    + updateGameLoop()
+}
+
+
+
+%% ===== Relationships =====
+GameModel --> "1" GameController : uses
+GameController --> GameModel
+GameController --> GameView
+GameController --> PlayerTank
+GameController --> Missile
+GameController --> PlayerControlStrategy
+GameController --> Direction
+GameView --> GameModel
+GameView --> SpriteManager
+GameView --> ExplosionEvent : uses
+Tank <|-- PlayerTank
+Tank <|-- EnemyTank
+MovementStrategy <|.. PlayerControlStrategy
+MovementStrategy <|.. AIMovementStrategy
+MovementStrategy <|.. SmarterAIMovementStrategy
+Tank --> MovementStrategy : strategy
+GameObjectFactory --> Tank
+GameObjectFactory --> Missile
+GameObjectFactory --> Wall
+GameObjectFactory --> MedPack
+GameModel --> Missile
+GameModel --> Tank
+GameModel --> Wall
+GameModel --> MedPack
+Tank --> Direction
+Tank --> ExplosionEvent
+Tank --> GameModel
+Subject <|.. GameEventManager
+Observer <|.. GameView
+GameEventManager --> GameView : notifies
+IntroScreen --> SpriteManager
+
+
